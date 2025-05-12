@@ -9,6 +9,9 @@ import Foundation
 
 struct RecipesResponseDTO: Decodable {
   let recipes: [RecipeDTO]
+  let total: Int
+  let skip: Int
+  let limit: Int
 }
 
 struct RecipeDTO: Decodable {
