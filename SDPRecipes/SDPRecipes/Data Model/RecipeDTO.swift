@@ -18,7 +18,7 @@ struct RecipeDTO: Decodable {
   let id: Int
   let name: String
   let ingredients: [String]
-  let instructtions: [String]
+  let instructions: [String]
   let prepTimeMinutes: Int
   let cookTimeMinutes: Int
   let servings: Int
