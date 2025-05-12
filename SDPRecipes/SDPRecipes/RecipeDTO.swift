@@ -1,5 +1,5 @@
 //
-//  Recipe.swift
+//  RecipeDTO.swift
 //  SDPRecipes
 //
 //  Created by Juan Francisco Dorado Torres on 12/05/25.
@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct RecipesResponse: Decodable {
-  let recipes: [Recipe]
+struct RecipesResponseDTO: Decodable {
+  let recipes: [RecipeDTO]
 }
 
-struct Recipe: Decodable {
+struct RecipeDTO: Decodable {
   let id: Int
   let name: String
   let ingredients: [String]
