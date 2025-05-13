@@ -1,5 +1,5 @@
 //
-//  RecipesFeature.swift
+//  RecipesLoader.swift
 //  SDPRecipes
 //
 //  Created by Juan Francisco Dorado Torres on 12/05/25.
@@ -7,8 +7,8 @@
 
 import Foundation
 
-protocol RecipesFeature {
-  func fetchRecipes() throws(RecipeError) -> [Recipe]
+protocol RecipesLoader {
+  func loadRecipes() throws(RecipeError) -> [Recipe]
 }
 
 enum RecipeError: Error {
@@ -16,8 +16,8 @@ enum RecipeError: Error {
   case unableToParse
 }
 
-final class RemoteRecipesFeature: RecipesFeature {
-  func fetchRecipes() throws(RecipeError) -> [Recipe] {
+final class RemoteRecipesLoader: RecipesLoader {
+  func loadRecipes() throws(RecipeError) -> [Recipe] {
     guard let url = Bundle.main.url(forResource: "recipes", withExtension: "json") else {
       fatalError("File not found")
     }

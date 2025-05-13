@@ -9,16 +9,16 @@ import Foundation
 
 @Observable
 final class RecipesViewModel {
-  private let recipesService: RecipesFeature
+  private let recipesService: RecipesLoader
   var recipes: [Recipe] = []
 
-  init(recipesService: RecipesFeature) {
+  init(recipesService: RecipesLoader) {
     self.recipesService = recipesService
     loadRecipes()
   }
 
   func loadRecipes () {
-    if let recipes = try? recipesService.fetchRecipes() {
+    if let recipes = try? recipesService.loadRecipes() {
       self.recipes = recipes
     } else {
       self.recipes = []
