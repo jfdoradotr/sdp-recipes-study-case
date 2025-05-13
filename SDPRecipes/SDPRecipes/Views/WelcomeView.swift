@@ -28,6 +28,8 @@ struct WelcomeView: View {
 }
 
 struct StrokedButtonStyle: ButtonStyle {
+  @State private var isAnimating = false
+
   func makeBody(configuration: Configuration) -> some View {
     configuration.label
       .font(.headline)
@@ -38,10 +40,13 @@ struct StrokedButtonStyle: ButtonStyle {
         ZStack {
           RoundedRectangle(cornerRadius: 25)
             .fill(AngularGradient(colors: [.blue, .purple, .pink, .blue], center: .center))
-            .blur(radius: 8)
+            .blur(radius: isAnimating ? 4 : 12)
             .opacity(0.7)
-            .rotationEffect(.degrees(configuration.isPressed ? 360 : 0))
-            .animation(.linear(duration: 2).repeatForever(autoreverses: false), value: configuration.isPressed)
+            .onAppear {
+              withAnimation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true)) {
+                isAnimating = true
+              }
+            }
 
           Capsule()
             .fill(.white)
