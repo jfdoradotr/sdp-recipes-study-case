@@ -16,7 +16,7 @@ enum RecipeError: Error {
   case unableToParse
 }
 
-final class RemoteRecipesLoader: RecipesLoader {
+final class LocalRecipesLoader: RecipesLoader {
   func loadRecipes() throws(RecipeError) -> [Recipe] {
     guard let url = Bundle.main.url(forResource: "recipes", withExtension: "json") else {
       fatalError("File not found")

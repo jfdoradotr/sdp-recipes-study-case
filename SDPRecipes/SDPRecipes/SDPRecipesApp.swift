@@ -9,7 +9,7 @@ import SwiftUI
 
 @main
 struct SDPRecipesApp: App {
-  @State private var viewModel = RecipesViewModel(recipesService: RemoteRecipesLoader())
+  @State private var viewModel = RecipesViewModel(recipesService: LocalRecipesLoader())
 
   var body: some Scene {
     WindowGroup {
