@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct ContentView: View {
+  @Environment(RecipesViewModel.self) var viewModel
+
+  @State private var isFirstTime = true
+
   var body: some View {
     TabView {
       Tab("Recipes", systemImage: "fork.knife") {
@@ -35,9 +39,13 @@ struct ContentView: View {
         }
       }
     }
+    .fullScreenCover(isPresented: $isFirstTime) {
+      WelcomeView(isFirstTime: $isFirstTime)
+    }
   }
 }
 
 #Preview {
   ContentView()
+    .environment(RecipesViewModel(recipesService: LocalRecipesLoader()))
 }

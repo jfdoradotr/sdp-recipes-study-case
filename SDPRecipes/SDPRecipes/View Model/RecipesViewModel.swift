@@ -10,6 +10,7 @@ import Foundation
 @Observable
 final class RecipesViewModel {
   private let recipesService: RecipesLoader
+  var isFirstTime = true
   var recipes: [Recipe] = []
 
   init(recipesService: RecipesLoader) {

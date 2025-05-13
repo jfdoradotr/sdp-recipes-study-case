@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct WelcomeView: View {
+  @Binding var isFirstTime: Bool
+
   var body: some View {
     VStack(spacing: 32) {
       VStack(spacing: 8) {
@@ -19,7 +21,7 @@ struct WelcomeView: View {
       }
 
       Button("Press to continue") {
-        // TODO: Action
+        isFirstTime = false
       }
       .buttonStyle(StrokedButtonStyle())
 
@@ -57,5 +59,5 @@ struct StrokedButtonStyle: ButtonStyle {
 }
 
 #Preview {
-  WelcomeView()
+  WelcomeView(isFirstTime: .constant(true))
 }
