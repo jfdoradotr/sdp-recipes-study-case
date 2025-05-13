@@ -35,9 +35,18 @@ struct StrokedButtonStyle: ButtonStyle {
       .padding(.vertical, 8)
       .padding(.horizontal, 24)
       .background {
-        Capsule()
-          .fill(.white)
-          .stroke(Color.black, lineWidth: 3)
+        ZStack {
+          RoundedRectangle(cornerRadius: 25)
+            .fill(AngularGradient(colors: [.blue, .purple, .pink, .blue], center: .center))
+            .blur(radius: 8)
+            .opacity(0.7)
+            .rotationEffect(.degrees(configuration.isPressed ? 360 : 0))
+            .animation(.linear(duration: 2).repeatForever(autoreverses: false), value: configuration.isPressed)
+
+          Capsule()
+            .fill(.white)
+            .stroke(Color.black, lineWidth: 3)
+        }
       }
   }
 }
