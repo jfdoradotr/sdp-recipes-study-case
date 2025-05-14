@@ -8,20 +8,12 @@
 import Foundation
 
 protocol RecipesLoader {
+  var url: URL { get }
   func loadRecipes() throws(RecipeError) -> [Recipe]
 }
 
-enum RecipeError: Error {
-  case dataIsEmpty
-  case unableToParse
-}
-
-final class LocalRecipesLoader: RecipesLoader {
+extension RecipesLoader {
   func loadRecipes() throws(RecipeError) -> [Recipe] {
-    guard let url = Bundle.main.url(forResource: "recipes", withExtension: "json") else {
-      fatalError("File not found")
-    }
-
     guard let data = try? Data(contentsOf: url) else {
       throw .dataIsEmpty
     }
@@ -32,6 +24,17 @@ final class LocalRecipesLoader: RecipesLoader {
     }
 
     return RecipesMapper.map(recipesResponseDTO)
+  }
+}
+
+enum RecipeError: Error {
+  case dataIsEmpty
+  case unableToParse
+}
+
+final class LocalRecipesLoader: RecipesLoader {
+  var url: URL {
+    Bundle.main.url(forResource: "recipes", withExtension: "json")!
   }
 }
 

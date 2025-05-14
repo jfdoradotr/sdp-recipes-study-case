@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Recipe: Decodable {
+struct Recipe: Decodable, Identifiable {
   let id: Int
   let name: String
   let ingredients: [String]

@@ -13,7 +13,7 @@ final class RecipesViewModel {
   var isFirstTime = true
   var recipes: [Recipe] = []
 
-  init(recipesService: RecipesLoader) {
+  init(recipesService: RecipesLoader = LocalRecipesLoader()) {
     self.recipesService = recipesService
     loadRecipes()
   }
