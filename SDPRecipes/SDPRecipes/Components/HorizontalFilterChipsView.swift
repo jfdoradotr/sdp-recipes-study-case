@@ -39,11 +39,10 @@ struct HorizontalFilterChipsView<Item: FilterProtocol>: View {
 
 #Preview {
   enum Options: String, CaseIterable, FilterProtocol {
-    var displayText: String { rawValue }
+    var displayText: String { rawValue.capitalized }
 
     var id: Self { self }
 
-    case all
     case vegetarian
     case vegan
     case glutenFree
@@ -51,7 +50,7 @@ struct HorizontalFilterChipsView<Item: FilterProtocol>: View {
 
   return HorizontalFilterChipsView(
     items: Options.allCases,
-    selected: .constant(Options.all),
+    selected: .constant(Options.vegan),
     onSelect: { _ in }
   )
 }
