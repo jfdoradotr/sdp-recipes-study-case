@@ -11,19 +11,27 @@ struct RecipesListView: View {
   @Environment(RecipesViewModel.self) var recipesModel
 
   var body: some View {
+    @Bindable var bindableRecipesModel = recipesModel
     VStack {
-      ScrollView(.horizontal) {
-        LazyHStack {
-          ForEach(Recipe.Cuisine.allCases) { cuisine in
-            Button(cuisine.iconableValue) {
-              recipesModel.selectCuisine(cuisine)
-            }
-            .buttonStyle(ChipButtonStyle(isSelected: recipesModel.selectedCuisine == cuisine))
-          }
+//      ScrollView(.horizontal) {
+//        LazyHStack {
+//          ForEach(Recipe.Cuisine.allCases) { cuisine in
+//            Button(cuisine.iconableValue) {
+//              recipesModel.selectCuisine(cuisine)
+//            }
+//            .buttonStyle(ChipButtonStyle(isSelected: recipesModel.selectedCuisine == cuisine))
+//          }
+//        }
+//        .safeAreaPadding()
+//      }
+//      .scrollIndicators(.hidden)
+      HorizontalFilterChipsView(
+        items: Recipe.Cuisine.allCases,
+        selected: $bindableRecipesModel.selectedCuisine,
+        onSelect: { item in
+          recipesModel.selectCuisine(item)
         }
-        .safeAreaPadding()
-      }
-      .scrollIndicators(.hidden)
+      )
       .frame(height: 80)
       List(recipesModel.filteredRecipes) { recipe in
         NavigationLink(value: recipe) {

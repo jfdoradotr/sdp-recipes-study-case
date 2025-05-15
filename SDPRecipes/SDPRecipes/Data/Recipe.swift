@@ -42,7 +42,7 @@ extension Recipe {
 }
 
 extension Recipe {
-  enum Cuisine: String, CaseIterable, Decodable, Identifiable {
+  enum Cuisine: String, CaseIterable, Decodable, FilterProtocol {
     case american = "American"
     case asian = "Asian"
     case brazilian = "Brazilian"
@@ -63,7 +63,7 @@ extension Recipe {
 
     var id: Self { self }
 
-    var iconableValue: String {
+    var displayText: String {
       let iconText = switch self {
       case .american:
         "🇺🇸"
