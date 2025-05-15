@@ -11,16 +11,53 @@ struct RecipesListView: View {
   @Environment(RecipesViewModel.self) var recipesModel
 
   var body: some View {
-    List(recipesModel.recipes) { recipe in
-      NavigationLink(value: recipe) {
-        Cell(recipe: recipe)
+    VStack {
+      ScrollView(.horizontal) {
+        LazyHStack {
+          ForEach(Recipe.Cuisine.allCases) { cuisine in
+            Button(cuisine.iconableValue) {
+              if recipesModel.selectedCuisine == cuisine {
+                recipesModel.selectedCuisine = nil
+              } else {
+                recipesModel.selectedCuisine = cuisine
+              }
+            }
+            .buttonStyle(ChipButtonStyle(isSelected: recipesModel.selectedCuisine == cuisine))
+          }
+        }
+        .safeAreaPadding()
       }
+      .scrollIndicators(.hidden)
+      .frame(height: 80)
+      List(recipesModel.filteredRecipes) { recipe in
+        NavigationLink(value: recipe) {
+          Cell(recipe: recipe)
+        }
+      }
+      .listStyle(.plain)
     }
-    .listStyle(.plain)
     .navigationTitle("Recipes")
     .navigationDestination(for: Recipe.self) { recipe in
       RecipeDetailsView(recipe: recipe)
     }
+  }
+}
+
+struct ChipButtonStyle: ButtonStyle {
+  var isSelected: Bool
+
+  func makeBody(configuration: Configuration) -> some View {
+    configuration.label
+      .font(.subheadline)
+      .fontWeight(.bold)
+      .foregroundStyle(isSelected ? Color.blue : Color.black)
+      .padding(.vertical, 5)
+      .padding(.horizontal, 8)
+      .frame(minWidth: 100)
+      .background {
+        Capsule(style: .continuous)
+          .fill(isSelected ? Color.blue.opacity(0.2) : Color.gray.opacity(0.2))
+      }
   }
 }
 

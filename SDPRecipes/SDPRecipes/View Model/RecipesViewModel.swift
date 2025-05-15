@@ -11,7 +11,16 @@ import Foundation
 final class RecipesViewModel {
   private let recipesService: RecipesRepositoryProtocol
   var isFirstTime = true
+  var selectedCuisine: Recipe.Cuisine? = nil
   var recipes: [Recipe] = []
+
+  var filteredRecipes: [Recipe] {
+    guard let selectedCuisine else {
+      return recipes
+    }
+
+    return recipes.filter { $0.cuisine == selectedCuisine }
+  }
 
   init(recipesService: RecipesRepositoryProtocol = LocalRecipesRepository()) {
     self.recipesService = recipesService

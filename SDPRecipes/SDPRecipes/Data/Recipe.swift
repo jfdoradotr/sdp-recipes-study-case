@@ -42,7 +42,7 @@ extension Recipe {
 }
 
 extension Recipe {
-  enum Cuisine: String, CaseIterable, Decodable {
+  enum Cuisine: String, CaseIterable, Decodable, Identifiable {
     case american = "American"
     case asian = "Asian"
     case brazilian = "Brazilian"
@@ -59,5 +59,48 @@ extension Recipe {
     case russian = "Russian"
     case smoothie = "Smoothie"
     case thai = "Thai"
-    case turkish = "Turkish"  }
+    case turkish = "Turkish"
+
+    var id: Self { self }
+
+    var iconableValue: String {
+      var iconText = switch self {
+      case .american:
+        "🇺🇸"
+      case .asian:
+        "🌏"
+      case .brazilian:
+        "🇧🇷"
+      case .greek:
+        "🇬🇷"
+      case .indian:
+        "🇮🇳"
+      case .italian:
+        "🇮🇹"
+      case .japanese:
+        "🇯🇵"
+      case .korean:
+        "🇰🇷"
+      case .lebanese:
+        "🇱🇧"
+      case .mediterranean:
+        "🌊"
+      case .mexican:
+        "🇲🇽"
+      case .moroccan:
+        "🇲🇦"
+      case .pakistani:
+        "🇵🇰"
+      case .russian:
+        "🇷🇺"
+      case .smoothie:
+        "🥤"
+      case .thai:
+        "🇹🇭"
+      case .turkish:
+        "🇹🇷"
+      }
+      return "\(iconText) \(rawValue)"
+    }
+  }
 }
