@@ -12,30 +12,32 @@ protocol StoreProtocol {
     func load() -> [String]
 }
 
-final class BookmarksRecipesStore: StoreProtocol {
-    private let bookmarksURL: URL
+class BaseStore: StoreProtocol {
+    private let storeURL: URL
+    private let storeName: String
     
-    init() {
+    init(storeName: String) {
         let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        bookmarksURL = documentsDirectory.appendingPathComponent("bookmarks.json")
+        self.storeName = storeName
+        self.storeURL = documentsDirectory.appendingPathComponent("\(storeName).json")
     }
     
     func save(_ id: String) {
-        var bookmarks = load()
-        if !bookmarks.contains(id) {
-            bookmarks.append(id)
+        var items = load()
+        if !items.contains(id) {
+            items.append(id)
             do {
-                let data = try JSONEncoder().encode(bookmarks)
-                try data.write(to: bookmarksURL)
+                let data = try JSONEncoder().encode(items)
+                try data.write(to: storeURL)
             } catch {
-                print("Error saving bookmark: \(error)")
+                print("Error saving \(storeName): \(error)")
             }
         }
     }
     
     func load() -> [String] {
         do {
-            let data = try Data(contentsOf: bookmarksURL)
+            let data = try Data(contentsOf: storeURL)
             return try JSONDecoder().decode([String].self, from: data)
         } catch {
             return []
@@ -43,33 +45,14 @@ final class BookmarksRecipesStore: StoreProtocol {
     }
 }
 
-final class LikesRecipesStore: StoreProtocol {
-    private let likesURL: URL
-    
+final class BookmarksRecipesStore: BaseStore {
     init() {
-        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        likesURL = documentsDirectory.appendingPathComponent("likes.json")
+        super.init(storeName: "bookmarks")
     }
-    
-    func save(_ id: String) {
-        var likes = load()
-        if !likes.contains(id) {
-            likes.append(id)
-            do {
-                let data = try JSONEncoder().encode(likes)
-                try data.write(to: likesURL)
-            } catch {
-                print("Error saving like: \(error)")
-            }
-        }
-    }
-    
-    func load() -> [String] {
-        do {
-            let data = try Data(contentsOf: likesURL)
-            return try JSONDecoder().decode([String].self, from: data)
-        } catch {
-            return []
-        }
+}
+
+final class LikesRecipesStore: BaseStore {
+    init() {
+        super.init(storeName: "likes")
     }
 }
