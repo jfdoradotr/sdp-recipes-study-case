@@ -23,13 +23,13 @@ struct WelcomeView: View {
       Button("Press to continue") {
         isFirstTime = false
       }
-      .buttonStyle(StrokedButtonStyle())
+      .buttonStyle(BreathableButtonStyle())
 
     }
   }
 }
 
-struct StrokedButtonStyle: ButtonStyle {
+struct BreathableButtonStyle: ButtonStyle {
   @State private var isAnimating = false
 
   func makeBody(configuration: Configuration) -> some View {
