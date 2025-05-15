@@ -10,12 +10,16 @@ import Foundation
 @Observable
 final class RecipesViewModel {
   private let recipesService: RecipesRepositoryProtocol
-  private let bookmarksStore: RecipesStoreProtocol
+  private let bookmarksStore: any StoreProtocol<Int>
+  private let likesStore: any StoreProtocol<Int>
+
   var isFirstTime = true
   var selectedCuisine: Recipe.Cuisine? = nil
   var selectedDifficulty: Recipe.Difficulty? = nil
   var recipes: [Recipe] = []
-  var bookmarkedIds: [String] = []
+
+  private var bookmarkIds: [Int] = []
+  private var likesIds: [Int] = []
 
   var filteredRecipes: [Recipe] {
     recipes.filter { recipe in
@@ -24,11 +28,17 @@ final class RecipesViewModel {
     }
   }
 
-  init(recipesService: RecipesRepositoryProtocol = LocalRecipesRepository(), bookmarksStore: RecipesStoreProtocol = RecipesStore()) {
+  init(
+    recipesService: RecipesRepositoryProtocol = LocalRecipesRepository(),
+    bookmarksStore: any StoreProtocol<Int> = BookmarksRecipesStore(),
+    likesStore: any StoreProtocol<Int> = LikesRecipesStore()
+  ) {
     self.recipesService = recipesService
     self.bookmarksStore = bookmarksStore
-    loadRecipes()
+    self.likesStore = likesStore
     loadBookmarks()
+    loadLikes()
+    loadRecipes()
   }
 
   func loadRecipes () {
@@ -37,10 +47,6 @@ final class RecipesViewModel {
     } else {
       self.recipes = []
     }
-  }
-
-  func loadBookmarks() {
-    bookmarkedIds = bookmarksStore.load()
   }
 
   func selectCuisine(_ cuisine: Recipe.Cuisine) {
@@ -65,6 +71,23 @@ final class RecipesViewModel {
   }
 
   func like(_ recipe: Recipe) {
+    likesStore.save(recipe.id)
+    loadLikes()
+  }
 
+  private func loadBookmarks() {
+    bookmarkIds = bookmarksStore.load()
+  }
+
+  private func loadLikes() {
+    likesIds = likesStore.load()
+  }
+
+  func isFavorite(_ recipe: Recipe) -> Bool {
+    likesIds.contains(recipe.id)
+  }
+
+  func isBookmarked(_ recipe: Recipe) -> Bool {
+    bookmarkIds.contains(recipe.id)
   }
 }

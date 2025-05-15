@@ -7,12 +7,13 @@
 
 import Foundation
 
-protocol StoreProtocol {
-    func save(_ id: String)
-    func load() -> [String]
+protocol StoreProtocol<Element> where Element: Equatable & Codable {
+  associatedtype Element
+  func save(_ id: Element)
+  func load() -> [Element]
 }
 
-class BaseStore: StoreProtocol {
+class BaseStore<Element: Equatable & Codable>: StoreProtocol {
     private let storeURL: URL
     private let storeName: String
     
@@ -22,9 +23,9 @@ class BaseStore: StoreProtocol {
         self.storeURL = documentsDirectory.appendingPathComponent("\(storeName).json")
     }
     
-    func save(_ id: String) {
+    func save(_ id: Element) {
         var items = load()
-        if !items.contains(id) {
+        if !items.contains(where: { $0 == id }) {
             items.append(id)
             do {
                 let data = try JSONEncoder().encode(items)
@@ -35,23 +36,23 @@ class BaseStore: StoreProtocol {
         }
     }
     
-    func load() -> [String] {
+    func load() -> [Element] {
         do {
             let data = try Data(contentsOf: storeURL)
-            return try JSONDecoder().decode([String].self, from: data)
+            return try JSONDecoder().decode([Element].self, from: data)
         } catch {
             return []
         }
     }
 }
 
-final class BookmarksRecipesStore: BaseStore {
+final class BookmarksRecipesStore: BaseStore<Int> {
     init() {
         super.init(storeName: "bookmarks")
     }
 }
 
-final class LikesRecipesStore: BaseStore {
+final class LikesRecipesStore: BaseStore<Int> {
     init() {
         super.init(storeName: "likes")
     }

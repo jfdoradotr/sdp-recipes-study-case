@@ -34,17 +34,21 @@ struct RecipesListView: View {
       .frame(height: 40)
       List(recipesModel.filteredRecipes) { recipe in
         NavigationLink(value: recipe) {
-          Cell(recipe: recipe)
-            .swipeActions {
-              Button("Like", systemImage: "heart.fill") {
-                recipesModel.like(recipe)
-              }
-              .tint(.pink)
-              Button("Bookmark", systemImage: "bookmark.fill") {
-                recipesModel.bookmark(recipe)
-              }
-              .tint(.green)
+          Cell(
+            recipe: recipe,
+            isFavorite: recipesModel.isFavorite(recipe),
+            isBookmarked: recipesModel.isBookmarked(recipe)
+          )
+          .swipeActions {
+            Button("Like", systemImage: "heart.fill") {
+              recipesModel.like(recipe)
             }
+            .tint(.pink)
+            Button("Bookmark", systemImage: "bookmark.fill") {
+              recipesModel.bookmark(recipe)
+            }
+            .tint(.green)
+          }
         }
       }
       .listStyle(.plain)
@@ -77,17 +81,20 @@ struct ChipButtonStyle: ButtonStyle {
 private extension RecipesListView {
   struct Cell: View {
     let recipe: Recipe
+    let isFavorite: Bool
+    let isBookmarked: Bool
 
     var body: some View {
       HStack(alignment: .top, spacing: 8) {
         AsyncImage(url: recipe.image) { image in
           image
             .resizable()
+            .scaledToFill()
             .clipShape(RoundedRectangle(cornerRadius: 8))
         } placeholder: {
           ProgressView()
         }
-        .frame(width: 60, height: 60)
+        .frame(width: 80, height: 80)
 
         VStack(alignment: .leading, spacing: 8) {
           Text(recipe.name)
@@ -99,6 +106,17 @@ private extension RecipesListView {
           }
           .font(.footnote)
           .foregroundStyle(.secondary)
+          HStack {
+            if isFavorite {
+              Image(systemName: "heart.fill")
+                .foregroundStyle(.pink)
+            }
+            if isBookmarked {
+              Image(systemName: "bookmark.fill")
+                .foregroundStyle(.green)
+            }
+          }
+          .font(.headline)
         }
       }
     }
@@ -113,5 +131,10 @@ private extension RecipesListView {
 }
 
 #Preview("Cell") {
-  RecipesListView.Cell(recipe: .preview)
+  List {
+    RecipesListView.Cell(recipe: .preview, isFavorite: true , isBookmarked: true)
+    RecipesListView.Cell(recipe: .preview, isFavorite: true , isBookmarked: false)
+    RecipesListView.Cell(recipe: .preview, isFavorite: false , isBookmarked: true)
+    RecipesListView.Cell(recipe: .preview, isFavorite: false , isBookmarked: false)
+  }
 }
