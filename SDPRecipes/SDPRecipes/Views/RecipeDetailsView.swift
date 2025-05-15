@@ -13,16 +13,30 @@ struct RecipeDetailsView: View {
   var body: some View {
     Form {
       Section {
-        AsyncImage(url: recipe.image) { image in
-          image
-            .resizable()
-            .scaledToFill()
-            .clipShape(RoundedRectangle(cornerRadius: 10))
-            .frame(height: 250)
-        } placeholder: {
-          ProgressView()
-            .controlSize(.extraLarge)
+        ZStack {
+          AsyncImage(url: recipe.image) { phase in
+            switch phase {
+            case .empty:
+              ProgressView()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            case .success(let image):
+              image
+                .resizable()
+                .scaledToFill()
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+                .frame(height: 250)
+            case .failure(let error):
+              Image(systemName: "photo.badge.exclamationmark.fill")
+              .font(.largeTitle)
+              .frame(maxWidth: .infinity)
+            @unknown default:
+              Image(systemName: "photo.badge.exclamationmark.fill")
+              .font(.largeTitle)
+              .frame(maxWidth: .infinity)            }
+          }
         }
+
+        .frame(height: 250)
       }
       .listRowBackground(Color.clear)
       .listRowInsets(EdgeInsets())
@@ -32,7 +46,7 @@ struct RecipeDetailsView: View {
           Text(recipe.name)
             .font(.title2)
             .fontWeight(.bold)
-          VStack(alignment: .leading) {
+          VStack(alignment: .leading, spacing: 8) {
             Text("⭐️ \(recipe.rating.formatted())")
             Text("🍽️ \(recipe.servings) people")
             Text("⏲️ \(recipe.prepTimeMinutes) min")
@@ -44,13 +58,27 @@ struct RecipeDetailsView: View {
       }
 
       Section {
-        Text(recipe.ingredients.map( { "• \($0)" } ).joined(separator: "\n"))
+        ForEach(recipe.ingredients, id: \.self) { ingredient in
+          HStack(alignment: .top) {
+            Text("•")
+              .font(.headline)
+            Text(ingredient)
+          }
+          .listRowSeparator(.hidden)
+        }
       } header: {
         Text("Ingredients")
       }
 
       Section {
-        Text(recipe.instructions.map( { "• \($0)" } ).joined(separator: "\n"))
+        ForEach(recipe.instructions, id: \.self) { instruction in
+          HStack(alignment: .top) {
+            Text("•")
+              .font(.headline)
+            Text(instruction)
+          }
+          .listRowSeparator(.hidden)
+        }
       } header: {
         Text("Instructions")
       }

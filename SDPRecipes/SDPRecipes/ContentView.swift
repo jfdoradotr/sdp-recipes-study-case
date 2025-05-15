@@ -16,8 +16,7 @@ struct ContentView: View {
     TabView {
       Tab("Recipes", systemImage: "fork.knife") {
         NavigationStack {
-          Text("Hey oh!")
-            .navigationTitle("Recipes")
+          RecipesListView()
         }
       }
       Tab("Saved", systemImage: "bookmark.fill") {
