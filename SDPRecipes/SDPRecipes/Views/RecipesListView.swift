@@ -13,21 +13,10 @@ struct RecipesListView: View {
   var body: some View {
     @Bindable var bindableRecipesModel = recipesModel
     VStack {
-//      ScrollView(.horizontal) {
-//        LazyHStack {
-//          ForEach(Recipe.Cuisine.allCases) { cuisine in
-//            Button(cuisine.iconableValue) {
-//              recipesModel.selectCuisine(cuisine)
-//            }
-//            .buttonStyle(ChipButtonStyle(isSelected: recipesModel.selectedCuisine == cuisine))
-//          }
-//        }
-//        .safeAreaPadding()
-//      }
-//      .scrollIndicators(.hidden)
       HorizontalFilterChipsView(
         items: Recipe.Cuisine.allCases,
         selected: $bindableRecipesModel.selectedCuisine,
+        hasAllOption: true,
         onSelect: { item in
           recipesModel.selectCuisine(item)
         }
