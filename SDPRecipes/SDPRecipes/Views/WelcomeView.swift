@@ -32,6 +32,8 @@ struct WelcomeView: View {
 struct BreathableButtonStyle: ButtonStyle {
   @State private var isAnimating = false
 
+  @Environment(\.colorScheme) private var colorScheme
+
   func makeBody(configuration: Configuration) -> some View {
     configuration.label
       .font(.headline)
@@ -51,8 +53,8 @@ struct BreathableButtonStyle: ButtonStyle {
             }
 
           Capsule()
-            .fill(.white)
-            .stroke(Color.black, lineWidth: 3)
+            .fill(colorScheme == .light ? .white : .black)
+            .stroke(Color.primary, lineWidth: 3)
         }
       }
   }
