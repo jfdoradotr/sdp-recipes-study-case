@@ -43,9 +43,10 @@ struct HorizontalFilterChipsView<Item: FilterProtocol>: View {
     case vegan
     case glutenFree
   }
+
   return HorizontalFilterChipsView(
     items: Options.allCases,
-    selected: .constant(nil),
+    selected: .constant(Options.all),
     onSelect: { _ in }
   )
 }
