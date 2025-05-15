@@ -35,6 +35,16 @@ struct RecipesListView: View {
       List(recipesModel.filteredRecipes) { recipe in
         NavigationLink(value: recipe) {
           Cell(recipe: recipe)
+            .swipeActions {
+              Button("Favorite", systemImage: "heart.fill") {
+
+              }
+              .tint(.pink)
+              Button("Bookmark", systemImage: "bookmark.fill") {
+
+              }
+              .tint(.green)
+            }
         }
       }
       .listStyle(.plain)
