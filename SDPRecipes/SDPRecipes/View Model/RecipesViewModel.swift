@@ -16,15 +16,10 @@ final class RecipesViewModel {
   var recipes: [Recipe] = []
 
   var filteredRecipes: [Recipe] {
-    recipes
-      .filter { recipe in
-        guard let selectedCuisine else { return true }
-        return recipe.cuisine == selectedCuisine
-      }
-      .filter { recipe in
-        guard let selectedDifficulty else { return true }
-        return recipe.difficulty == selectedDifficulty
-      }
+    recipes.filter { recipe in
+      (selectedCuisine == nil || recipe.cuisine == selectedCuisine) &&
+      (selectedDifficulty == nil || recipe.difficulty == selectedDifficulty)
+    }
   }
 
   init(recipesService: RecipesRepositoryProtocol = LocalRecipesRepository()) {
