@@ -9,11 +9,11 @@ import Foundation
 
 @Observable
 final class RecipesViewModel {
-  private let recipesService: RecipesLoader
+  private let recipesService: RecipesRepositoryProtocol
   var isFirstTime = true
   var recipes: [Recipe] = []
 
-  init(recipesService: RecipesLoader = LocalRecipesLoader()) {
+  init(recipesService: RecipesRepositoryProtocol = LocalRecipesRepository()) {
     self.recipesService = recipesService
     loadRecipes()
   }

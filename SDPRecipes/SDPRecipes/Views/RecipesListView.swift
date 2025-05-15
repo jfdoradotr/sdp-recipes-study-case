@@ -59,7 +59,7 @@ private extension RecipesListView {
   NavigationStack {
     RecipesListView()
   }
-  .environment(RecipesViewModel(recipesService: TestRecipesLoader()))
+  .environment(RecipesViewModel(recipesService: TestRecipesRepository()))
 }
 
 #Preview("Cell") {

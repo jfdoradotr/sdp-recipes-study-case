@@ -46,5 +46,5 @@ struct ContentView: View {
 
 #Preview {
   ContentView()
-    .environment(RecipesViewModel(recipesService: LocalRecipesLoader()))
+    .environment(RecipesViewModel(recipesService: LocalRecipesRepository()))
 }
