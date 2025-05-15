@@ -10,10 +10,12 @@ import Foundation
 @Observable
 final class RecipesViewModel {
   private let recipesService: RecipesRepositoryProtocol
+  private let bookmarksStore: RecipesStoreProtocol
   var isFirstTime = true
   var selectedCuisine: Recipe.Cuisine? = nil
   var selectedDifficulty: Recipe.Difficulty? = nil
   var recipes: [Recipe] = []
+  var bookmarkedIds: [String] = []
 
   var filteredRecipes: [Recipe] {
     recipes.filter { recipe in
@@ -22,9 +24,11 @@ final class RecipesViewModel {
     }
   }
 
-  init(recipesService: RecipesRepositoryProtocol = LocalRecipesRepository()) {
+  init(recipesService: RecipesRepositoryProtocol = LocalRecipesRepository(), bookmarksStore: RecipesStoreProtocol = RecipesStore()) {
     self.recipesService = recipesService
+    self.bookmarksStore = bookmarksStore
     loadRecipes()
+    loadBookmarks()
   }
 
   func loadRecipes () {
@@ -33,6 +37,10 @@ final class RecipesViewModel {
     } else {
       self.recipes = []
     }
+  }
+
+  func loadBookmarks() {
+    bookmarkedIds = bookmarksStore.load()
   }
 
   func selectCuisine(_ cuisine: Recipe.Cuisine) {
@@ -49,5 +57,14 @@ final class RecipesViewModel {
     } else {
       selectedDifficulty = difficulty
     }
+  }
+
+  func bookmark(_ recipe: Recipe) {
+    bookmarksStore.save(recipe.id)
+    loadBookmarks()
+  }
+
+  func like(_ recipe: Recipe) {
+
   }
 }

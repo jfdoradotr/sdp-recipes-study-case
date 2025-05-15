@@ -36,12 +36,12 @@ struct RecipesListView: View {
         NavigationLink(value: recipe) {
           Cell(recipe: recipe)
             .swipeActions {
-              Button("Favorite", systemImage: "heart.fill") {
-
+              Button("Like", systemImage: "heart.fill") {
+                recipesModel.like(recipe)
               }
               .tint(.pink)
               Button("Bookmark", systemImage: "bookmark.fill") {
-
+                recipesModel.bookmark(recipe)
               }
               .tint(.green)
             }
