@@ -34,7 +34,21 @@ struct Recipe: Decodable, Identifiable, Hashable {
 }
 
 extension Recipe {
-  enum Difficulty: String, CaseIterable, Decodable {
+  enum Difficulty: String, CaseIterable, Decodable, FilterProtocol {
+    var displayText: String {
+      let iconText = switch self {
+      case .easy:
+        "🟢"
+      case .medium:
+        "🟡"
+      case .hard:
+        "🔴"
+      }
+      return "\(iconText) \(rawValue)"
+    }
+
+    var id: Self { self }
+
     case easy = "Easy"
     case medium = "Medium"
     case hard = "Hard"

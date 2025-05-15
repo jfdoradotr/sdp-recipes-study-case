@@ -12,16 +12,26 @@ struct RecipesListView: View {
 
   var body: some View {
     @Bindable var bindableRecipesModel = recipesModel
-    VStack {
+    VStack(spacing: 12) {
       HorizontalFilterChipsView(
         items: Recipe.Cuisine.allCases,
         selected: $bindableRecipesModel.selectedCuisine,
-        hasAllOption: true,
+        allOptionText: "🌎 All",
         onSelect: { item in
           recipesModel.selectCuisine(item)
         }
       )
-      .frame(height: 80)
+      .frame(height: 40)
+
+      HorizontalFilterChipsView(
+        items: Recipe.Difficulty.allCases,
+        selected: $bindableRecipesModel.selectedDifficulty,
+        allOptionText: "🧑‍🍳 All",
+        onSelect: { item in
+          recipesModel.selectDifficulty(item)
+        }
+      )
+      .frame(height: 40)
       List(recipesModel.filteredRecipes) { recipe in
         NavigationLink(value: recipe) {
           Cell(recipe: recipe)

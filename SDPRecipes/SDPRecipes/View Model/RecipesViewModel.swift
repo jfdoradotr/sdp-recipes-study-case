@@ -12,14 +12,19 @@ final class RecipesViewModel {
   private let recipesService: RecipesRepositoryProtocol
   var isFirstTime = true
   var selectedCuisine: Recipe.Cuisine? = nil
+  var selectedDifficulty: Recipe.Difficulty? = nil
   var recipes: [Recipe] = []
 
   var filteredRecipes: [Recipe] {
-    guard let selectedCuisine else {
-      return recipes
-    }
-
-    return recipes.filter { $0.cuisine == selectedCuisine }
+    recipes
+      .filter { recipe in
+        guard let selectedCuisine else { return true }
+        return recipe.cuisine == selectedCuisine
+      }
+      .filter { recipe in
+        guard let selectedDifficulty else { return true }
+        return recipe.difficulty == selectedDifficulty
+      }
   }
 
   init(recipesService: RecipesRepositoryProtocol = LocalRecipesRepository()) {
@@ -40,6 +45,14 @@ final class RecipesViewModel {
       selectedCuisine = nil
     } else {
       selectedCuisine = cuisine
+    }
+  }
+
+  func selectDifficulty(_ difficulty: Recipe.Difficulty) {
+    if selectedDifficulty == difficulty {
+      selectedDifficulty = nil
+    } else {
+      selectedDifficulty = difficulty
     }
   }
 }

@@ -14,16 +14,18 @@ protocol FilterProtocol: Identifiable, Equatable {
 struct HorizontalFilterChipsView<Item: FilterProtocol>: View {
   let items: [Item]
   @Binding var selected: Item?
-  var hasAllOption: Bool = false
+  var allOptionText: String? = nil
   var onSelect: (Item) -> Void
 
   var body: some View {
     ScrollView(.horizontal) {
       LazyHStack {
-        Button("🌎 All") {
-          selected = nil
+        if let allOptionText {
+          Button(allOptionText) {
+            selected = nil
+          }
+          .buttonStyle(ChipButtonStyle(isSelected: selected == nil))
         }
-        .buttonStyle(ChipButtonStyle(isSelected: selected == nil))
         ForEach(items) { item in
           Button(item.displayText) {
             onSelect(item)
