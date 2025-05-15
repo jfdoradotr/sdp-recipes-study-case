@@ -16,11 +16,7 @@ struct RecipesListView: View {
         LazyHStack {
           ForEach(Recipe.Cuisine.allCases) { cuisine in
             Button(cuisine.iconableValue) {
-              if recipesModel.selectedCuisine == cuisine {
-                recipesModel.selectedCuisine = nil
-              } else {
-                recipesModel.selectedCuisine = cuisine
-              }
+              recipesModel.selectCuisine(cuisine)
             }
             .buttonStyle(ChipButtonStyle(isSelected: recipesModel.selectedCuisine == cuisine))
           }

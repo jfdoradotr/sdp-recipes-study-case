@@ -64,7 +64,7 @@ extension Recipe {
     var id: Self { self }
 
     var iconableValue: String {
-      var iconText = switch self {
+      let iconText = switch self {
       case .american:
         "🇺🇸"
       case .asian:

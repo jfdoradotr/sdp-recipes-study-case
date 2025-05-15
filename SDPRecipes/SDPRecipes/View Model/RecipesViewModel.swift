@@ -34,4 +34,12 @@ final class RecipesViewModel {
       self.recipes = []
     }
   }
+
+  func selectCuisine(_ cuisine: Recipe.Cuisine) {
+    if selectedCuisine == cuisine {
+      selectedCuisine = nil
+    } else {
+      selectedCuisine = cuisine
+    }
+  }
 }
