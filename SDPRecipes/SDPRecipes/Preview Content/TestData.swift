@@ -30,8 +30,8 @@ extension Recipe {
     prepTimeMinutes: 20,
     cookTimeMinutes: 15,
     servings: 4,
-    difficulty: "Easy",
-    cuisine: "Italian",
+    difficulty: .easy,
+    cuisine: .italian,
     caloriesPerServing: 300,
     tags: [
       "Pizza",

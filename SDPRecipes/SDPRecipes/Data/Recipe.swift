@@ -22,8 +22,8 @@ struct Recipe: Decodable, Identifiable, Hashable {
   let prepTimeMinutes: Int
   let cookTimeMinutes: Int
   let servings: Int
-  let difficulty: String
-  let cuisine: String
+  let difficulty: Difficulty
+  let cuisine: Cuisine
   let caloriesPerServing: Int
   let tags: [String]
   let userId: Int
@@ -31,4 +31,33 @@ struct Recipe: Decodable, Identifiable, Hashable {
   let rating: Double
   let reviewCount: Int
   let mealType: [String]
+}
+
+extension Recipe {
+  enum Difficulty: String, CaseIterable, Decodable {
+    case easy = "Easy"
+    case medium = "Medium"
+    case hard = "Hard"
+  }
+}
+
+extension Recipe {
+  enum Cuisine: String, CaseIterable, Decodable {
+    case american = "American"
+    case asian = "Asian"
+    case brazilian = "Brazilian"
+    case greek = "Greek"
+    case indian = "Indian"
+    case italian = "Italian"
+    case japanese = "Japanese"
+    case korean = "Korean"
+    case lebanese = "Lebanese"
+    case mediterranean = "Mediterranean"
+    case mexican = "Mexican"
+    case moroccan = "Moroccan"
+    case pakistani = "Pakistani"
+    case russian = "Russian"
+    case smoothie = "Smoothie"
+    case thai = "Thai"
+    case turkish = "Turkish"  }
 }

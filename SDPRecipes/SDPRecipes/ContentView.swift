@@ -10,9 +10,9 @@ import SwiftUI
 struct ContentView: View {
   @Environment(RecipesViewModel.self) var viewModel
 
-  @State private var isFirstTime = true
-
   var body: some View {
+    @Bindable var bindableViewModel = viewModel
+
     TabView {
       Tab("Recipes", systemImage: "fork.knife") {
         NavigationStack {
@@ -38,8 +38,8 @@ struct ContentView: View {
         }
       }
     }
-    .fullScreenCover(isPresented: $isFirstTime) {
-      WelcomeView(isFirstTime: $isFirstTime)
+    .fullScreenCover(isPresented: $bindableViewModel.isFirstTime) {
+      WelcomeView(isFirstTime: $bindableViewModel.isFirstTime)
     }
   }
 }
