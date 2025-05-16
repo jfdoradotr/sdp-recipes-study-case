@@ -22,8 +22,8 @@ struct Recipe: Decodable, Identifiable, Hashable {
   let prepTimeMinutes: Int
   let cookTimeMinutes: Int
   let servings: Int
-  let difficulty: Difficulty
-  let cuisine: Cuisine
+  let difficulty: Difficulty?
+  let cuisine: Cuisine?
   let caloriesPerServing: Int
   let tags: [String]
   let userId: Int

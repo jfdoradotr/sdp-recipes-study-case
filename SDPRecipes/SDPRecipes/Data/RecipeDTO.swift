@@ -31,4 +31,25 @@ struct RecipeDTO: Decodable {
   let rating: Double
   let reviewCount: Int
   let mealType: [String]
+
+  var recipe: Recipe {
+    .init(
+      id: id,
+      name: name,
+      ingredients: ingredients,
+      instructions: instructions,
+      prepTimeMinutes: prepTimeMinutes,
+      cookTimeMinutes: cookTimeMinutes,
+      servings: servings,
+      difficulty: .init(rawValue: difficulty),
+      cuisine: .init(rawValue: cuisine),
+      caloriesPerServing: caloriesPerServing,
+      tags: tags,
+      userId: userId,
+      image: image,
+      rating: rating,
+      reviewCount: reviewCount,
+      mealType: mealType
+    )
+  }
 }

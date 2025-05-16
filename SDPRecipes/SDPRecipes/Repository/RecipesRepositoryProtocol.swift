@@ -18,11 +18,11 @@ extension RecipesRepositoryProtocol {
     }
 
     let decoder = JSONDecoder()
-    guard let response = try? decoder.decode(RecipesResponse.self, from: data) else {
+    guard let response = try? decoder.decode(RecipesResponseDTO.self, from: data) else {
       throw .unableToParse
     }
 
-    return response.recipes
+    return response.recipes.map(\.recipe)
   }
 }
 
