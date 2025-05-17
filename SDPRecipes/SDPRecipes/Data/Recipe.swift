@@ -31,6 +31,8 @@ struct Recipe: Decodable, Identifiable, Hashable {
   let rating: Double
   let reviewCount: Int
   let mealType: [String]
+  var isBookmarked: Bool
+  var isFavorite: Bool
 }
 
 extension Recipe {

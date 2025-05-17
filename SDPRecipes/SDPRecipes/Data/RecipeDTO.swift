@@ -49,7 +49,9 @@ struct RecipeDTO: Decodable {
       image: image,
       rating: rating,
       reviewCount: reviewCount,
-      mealType: mealType
+      mealType: mealType,
+      isBookmarked: false,
+      isFavorite: false
     )
   }
 }

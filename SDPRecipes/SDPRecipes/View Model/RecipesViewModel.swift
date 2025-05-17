@@ -36,9 +36,9 @@ final class RecipesViewModel {
     self.recipesService = recipesService
     self.bookmarksStore = bookmarksStore
     self.likesStore = likesStore
+    loadRecipes()
     loadBookmarks()
     loadLikes()
-    loadRecipes()
   }
 
   func loadRecipes () {
@@ -77,17 +77,19 @@ final class RecipesViewModel {
 
   private func loadBookmarks() {
     bookmarkIds = bookmarksStore.load()
+    bookmarkIds.forEach { id in
+      if let index = recipes.firstIndex(where: { $0.id == id }) {
+        recipes[index].isBookmarked = true
+      }
+    }
   }
 
   private func loadLikes() {
     likesIds = likesStore.load()
-  }
-
-  func isFavorite(_ recipe: Recipe) -> Bool {
-    likesIds.contains(recipe.id)
-  }
-
-  func isBookmarked(_ recipe: Recipe) -> Bool {
-    bookmarkIds.contains(recipe.id)
+    likesIds.forEach { id in
+      if let index = recipes.firstIndex(where: { $0.id == id }) {
+        recipes[index].isFavorite = true
+      }
+    }
   }
 }

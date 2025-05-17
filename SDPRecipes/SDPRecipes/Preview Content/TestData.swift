@@ -43,6 +43,8 @@ extension Recipe {
     reviewCount: 98,
     mealType: [
       "Dinner"
-    ]
+    ],
+    isBookmarked: false,
+    isFavorite: false
   )
 }

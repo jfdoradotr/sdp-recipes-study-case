@@ -11,8 +11,8 @@ struct RecipesListView: View {
   @Environment(RecipesViewModel.self) var recipesModel
 
   var body: some View {
-    @Bindable var bindableRecipesModel = recipesModel
     VStack(spacing: 12) {
+      @Bindable var bindableRecipesModel = recipesModel
       HorizontalFilterChipsView(
         items: Recipe.Cuisine.allCases,
         selected: $bindableRecipesModel.selectedCuisine,
@@ -32,27 +32,24 @@ struct RecipesListView: View {
         }
       )
       .frame(height: 40)
+
       List(recipesModel.filteredRecipes) { recipe in
         NavigationLink(value: recipe) {
-          Cell(
-            recipe: recipe,
-            isFavorite: recipesModel.isFavorite(recipe),
-            isBookmarked: recipesModel.isBookmarked(recipe)
-          )
-          .swipeActions {
-            Button("Like", systemImage: "heart.fill") {
-              recipesModel.like(recipe)
+          Cell(recipe: recipe)
+            .swipeActions {
+              Button("Like", systemImage: "heart.fill") {
+                recipesModel.like(recipe)
+              }
+              .tint(.pink)
+              Button("Bookmark", systemImage: "bookmark.fill") {
+                recipesModel.bookmark(recipe)
+              }
+              .tint(.green)
             }
-            .tint(.pink)
-            Button("Bookmark", systemImage: "bookmark.fill") {
-              recipesModel.bookmark(recipe)
-            }
-            .tint(.green)
-          }
         }
       }
-      .listStyle(.plain)
     }
+    .listStyle(.plain)
     .navigationTitle("Recipes")
     .navigationDestination(for: Recipe.self) { recipe in
       RecipeDetailsView(recipe: recipe)
@@ -81,8 +78,6 @@ struct ChipButtonStyle: ButtonStyle {
 private extension RecipesListView {
   struct Cell: View {
     let recipe: Recipe
-    let isFavorite: Bool
-    let isBookmarked: Bool
 
     var body: some View {
       HStack(alignment: .top, spacing: 8) {
@@ -107,11 +102,11 @@ private extension RecipesListView {
           .font(.footnote)
           .foregroundStyle(.secondary)
           HStack {
-            if isFavorite {
+            if recipe.isFavorite {
               Image(systemName: "heart.fill")
                 .foregroundStyle(.pink)
             }
-            if isBookmarked {
+            if recipe.isBookmarked {
               Image(systemName: "bookmark.fill")
                 .foregroundStyle(.green)
             }
@@ -132,9 +127,6 @@ private extension RecipesListView {
 
 #Preview("Cell") {
   List {
-    RecipesListView.Cell(recipe: .preview, isFavorite: true , isBookmarked: true)
-    RecipesListView.Cell(recipe: .preview, isFavorite: true , isBookmarked: false)
-    RecipesListView.Cell(recipe: .preview, isFavorite: false , isBookmarked: true)
-    RecipesListView.Cell(recipe: .preview, isFavorite: false , isBookmarked: false)
+    RecipesListView.Cell(recipe: .preview)
   }
 }
