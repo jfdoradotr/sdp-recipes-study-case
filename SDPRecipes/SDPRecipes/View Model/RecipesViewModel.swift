@@ -28,6 +28,12 @@ final class RecipesViewModel {
     }
   }
 
+  var bookmarkedRecipes: [Recipe] {
+    recipes.filter { recipe in
+      recipe.isBookmarked
+    }
+  }
+
   init(
     recipesService: RecipesRepositoryProtocol = LocalRecipesRepository(),
     bookmarksStore: any StoreProtocol<Int> = BookmarksRecipesStore(),

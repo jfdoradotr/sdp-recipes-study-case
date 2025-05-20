@@ -21,8 +21,7 @@ struct ContentView: View {
       }
       Tab("Saved", systemImage: "bookmark.fill") {
         NavigationStack {
-          Text("Hey oh!")
-            .navigationTitle("Saved")
+          BookmarksListView()
         }
       }
       Tab("Shopping List", systemImage: "cart.fill") {
